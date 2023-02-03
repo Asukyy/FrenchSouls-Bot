@@ -1,11 +1,29 @@
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
-
+const { Client, GatewayIntentBits,Partials, Collection, Message } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
+const axios = require('axios');
+const {DisTube} = require('distube');
+const {SpotifyPlugin} = require('@distube/spotify');
+
+
+const { EmbedBuilder } = require('@discordjs/builders');
 dotenv.config();
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages] });
+const client = new Client({
+    intents: [Object.keys(GatewayIntentBits)],
+    partials: [Object.keys(Partials)],
+});
+
+client.distube = new DisTube(client,
+     { 
+        emitNewSongOnly: true, 
+        leaveOnFinish: true,
+         emitAddSongWhenCreatingQueue: false,
+            plugins: [new SpotifyPlugin()]
+         });
+         
+module.exports = client;
 
 // Load all commands
 client.commands = new Collection();
@@ -40,7 +58,7 @@ for (const folder of eventsFolders) {
         try {
             const filePath = path.join(eventsPath, folder, file);
             const event = require(filePath);
-            if(event.once) {
+            if (event.once) {
                 client.once(event.name, (...args) => event.execute(...args, client));
             } else {
                 client.on(event.name, (...args) => event.execute(...args, client));
@@ -81,7 +99,7 @@ client.on('interactionCreate', async interaction => {
     if (interaction.isChatInputCommand) {
         const command = interaction.client.commands.get(interaction.commandName);
 
-        if(command) {
+        if (command) {
             try {
                 await command.execute(interaction);
             } catch (error) {
@@ -93,7 +111,7 @@ client.on('interactionCreate', async interaction => {
     if (interaction.isModalSubmit()) {
         const modal = interaction.client.components.get(interaction.customId);
 
-        if(modal) {
+        if (modal) {
             try {
                 await modal.execute(interaction);
             } catch (error) {
@@ -104,7 +122,7 @@ client.on('interactionCreate', async interaction => {
     }
     if (interaction.isUserContextMenuCommand()) {
         const contextMenu = interaction.client.components.get(interaction.commandName);
-        if(contextMenu) {
+        if (contextMenu) {
             try {
                 await contextMenu.execute(interaction);
             } catch (error) {
@@ -115,7 +133,7 @@ client.on('interactionCreate', async interaction => {
     }
     if (interaction.isButton()) {
         const button = interaction.client.components.get(interaction.customId);
-        if(button) {
+        if (button) {
             try {
                 await button.execute(interaction);
             } catch (error) {
@@ -125,5 +143,6 @@ client.on('interactionCreate', async interaction => {
         }
     }
 });
+
 
 client.login(process.env.TOKEN);

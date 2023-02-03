@@ -1,23 +1,28 @@
-const mysql = require('mysql');
-const dotenv = require('dotenv');
-dotenv.config();
+const {Client} = require('discord.js')
+const mongoose = require('mongoose')
+const config = require('../../config.json')
 
 module.exports = {
-	name: 'ready',
-	once: true,
-	execute(client) {
-		console.log(`Now come on, get to it as ${client.user.tag} ! 🚀`);
-		global.slowModeMembers = [];
-		
-		global.database = mysql.createConnection({
-			host: process.env.DB_HOST,
-			user: process.env.DB_USER,
-			password: process.env.DB_PASSWORD,
-			database: process.env.DB_NAME
-		});
-		database.connect((error) => {
-			if (error) throw error;
-			console.log('Connected to the database ! 📡');
-		});
-	},
-};
+    name: 'ready',
+    once: true,
+
+    async execute(client) {
+        try {
+            mongoose.set('strictQuery', false);
+            await mongoose.connect(process.env.MONGODB)
+
+            if (mongoose.connect) {
+                console.log('MongoDB connection successful.')
+            }
+
+            console.log(`${client.user.username} is now online.`)
+        }
+        catch (error) {
+            console.log(`Error ${error}`)
+        }
+
+		console.log(`Logged in as ${client.user.tag}!`)
+
+
+    }
+}

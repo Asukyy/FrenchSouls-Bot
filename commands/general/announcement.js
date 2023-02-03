@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 
@@ -9,6 +11,10 @@ module.exports = {
             .setDescription('The channel to announce in')
             .setRequired(true)),
     async execute(interaction) {
+        const member = interaction.member;
+
+        if (member.permissions.has('8')) {
+
         try {
             global.announceChannel = interaction.options.getChannel('channel');
         const announceForm = new ModalBuilder()
@@ -47,10 +53,13 @@ module.exports = {
         announceForm.addComponents(announceTitleComponent, announceContentComponent, announceImageComponent, announceColorComponent);
 
         await interaction.showModal(announceForm);
-        } catch (error) {
+        }   
+          catch (error) {
             console.log(error);
             await interaction.reply({ content: 'Ooops... ! I felt into the stairs 🤕 Can you please try again ?', ephemeral: true });
+        }}
+        else{
+            await interaction.reply({ content: 'Tu es bien trop faible pour utiliser cette commande', ephemeral: true });
         }
     }
-
-}
+}    
