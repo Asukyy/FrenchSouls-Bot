@@ -3,6 +3,7 @@ const {EmbedBuilder, RichEmbed} = require('discord.js')
 const mongoose = require('mongoose')
 const config = require('../../config.json')
 
+
 module.exports = {
     name: 'ready',
     once: true,
@@ -23,7 +24,6 @@ module.exports = {
         }
 
 		console.log(`Logged in as ${client.user.tag}!`)
-        client.user.setActivity('Joue à attendre sa prochaine mission | Frenchbot', { type: 'LISTENING' })
 
     }
 }
