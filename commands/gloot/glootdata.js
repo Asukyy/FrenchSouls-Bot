@@ -14,7 +14,6 @@ module.exports = {
               message.reply(response.data);
             } catch (error) {
               console.error(error);
-              message.reply('Il y a eu une erreur lors de la récupération des données de l\'API Gloot.');
             }
           }
 }
