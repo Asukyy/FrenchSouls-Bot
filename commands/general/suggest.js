@@ -44,10 +44,11 @@ module.exports = {
             new ButtonBuilder().setCustomId('accept').setLabel('Accepter').setStyle(ButtonStyle.Success),
             new ButtonBuilder().setCustomId('refuse').setLabel('Refuser').setStyle(ButtonStyle.Danger),
         );
-
+  
         try {
+
             const message = await channel.send({ embeds: [embed], components: [button], fetchReply: true });
-            await interaction.reply({ content: "Suggestion envoyée ! Votre suggestion vous sera renvoyé en mp peu importe si elle est accepté ou refusé.", ephemeral: true });
+            await interaction.reply({ content: "Suggestion envoyée ! elle te sera envoyé dans le salon #💡suggestion peu importe si elle est refusé ou accepté ." , ephemeral: true });
             await suggestion.create({
                 GuildID: guildId, MessageID: message.id, Details: [
                     {
@@ -61,5 +62,6 @@ module.exports = {
         } catch (error) {
             console.log(error);
         }
+        
     }
 }

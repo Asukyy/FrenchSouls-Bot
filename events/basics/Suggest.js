@@ -5,11 +5,12 @@ module.exports = {
     name: 'interactionCreate',
     async execute(interaction) {
 
-        const {member,guildId, customId, message} = interaction;
+        const {member,guildId, customId, message, guild} = interaction;
+        const channel = guild.channels.cache.get('1071812501685145610');
 
         const AcceptMessage = new EmbedBuilder()
             .setColor('Green')
-            .setDescription('Votre suggestion a été accepté !');
+            .setDescription("Votre suggestion a été accepté merci de votre contribution!");
 
         const RefuseMessage = new EmbedBuilder()
             .setColor('Red')
@@ -35,24 +36,19 @@ module.exports = {
                         embed.data.fields[2]= {name: 'Status', value: 'Accepté', inline: true};
                         const acceptedEmbed = EmbedBuilder.from(embed).setColor('Green');
                         message.edit({embeds: [acceptedEmbed]});
-                        
-                        const user = await interaction.client.users.fetch(data.UserId);
-                        user.send({ embeds: [AcceptMessage]});
                         interaction.reply({ content: "Le message a été accepté !", ephemeral: true});
-                        setTimeout(() => {
-                            message.delete();
-                        }, 10000);
+                        channel.send({ embeds: [AcceptMessage] });
+                        channel.send({ embeds: [acceptedEmbed] });
+                        message.delete();
                         break;
                     case 'refuse':
                         embed.data.fields[2]= {name: 'Status', value: 'Refusé', inline: true};
                         const refusedEmbed = EmbedBuilder.from(embed).setColor('Red');
                         message.edit({embeds: [refusedEmbed]});
-                        user.send({ embeds: [RefuseMessage]});
                         interaction.reply({ content: "Le message a été refusé !", ephemeral: true});
-                        setTimeout(() => {
-                            message.delete();
-                        }, 10000);
-                        
+                        channel.send({ embeds: [RefuseMessage] });
+                        channel.send({ embeds: [refusedEmbed] });
+                        message.delete();
                         break;
                 }
             })

@@ -21,8 +21,7 @@ module.exports = {
             .setDescription(`tu ne peux pas faire cette action quand tu es plus faible.`)
             .setColor('Red')
 
-        if (!member.roles.highest.position >= interaction.member.roles.highest.position)
-            return interaction.reply({ embeds: [errEmbed], ephemeral: true })
+        if(!member.permissions.has(PermissionFlagsBits.Administrator)) return interaction.reply({ embeds: [errEmbed], ephemeral: true });
 
         const channel = interaction.options.getChannel('channel');
         const verifyembed = new EmbedBuilder()
