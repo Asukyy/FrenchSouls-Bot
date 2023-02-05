@@ -146,4 +146,3 @@ client.on('interactionCreate', async interaction => {
 
 
 client.login(process.env.TOKEN);
-client.listen(process.env.PORT || 3000);
