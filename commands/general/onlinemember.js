@@ -11,11 +11,19 @@ module.exports = {
         
         const message = await interaction.reply({ embeds: [embed] });
 
-        const interval = setInterval(async () => {
+        let interval;
+        let intervalRunning = false;
+
+        async function updateMembers() {
             const members = guild.members.cache.filter(member => member.presence && member.presence.status !== 'offline');
             const embed = createEmbed(members);
             await interaction.editReply({ embeds: [embed] });
-        }, 5000);
+        }
+
+        if (!intervalRunning) {
+            interval = setInterval(updateMembers, 5000);
+            intervalRunning = true;
+        }
     }    
 };
 
@@ -36,6 +44,3 @@ function createEmbed(members) {
     });
     return embed;
 }
-
-
-
