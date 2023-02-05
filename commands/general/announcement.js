@@ -17,7 +17,9 @@ module.exports = {
 
         try {
             global.announceChannel = interaction.options.getChannel('channel');
-        const announceForm = new ModalBuilder()
+            global.announceChannel.send(`@everyone`);
+
+            const announceForm = new ModalBuilder()
             .setCustomId('announceForm')
             .setTitle('Announcement');
 

@@ -47,7 +47,7 @@ module.exports = {
 
         try {
             const message = await channel.send({ embeds: [embed], components: [button], fetchReply: true });
-            await interaction.reply({ content: "Suggestion envoyée !", ephemeral: true });
+            await interaction.reply({ content: "Suggestion envoyée ! Votre suggestion vous sera renvoyé en mp peu importe si elle est accepté ou refusé.", ephemeral: true });
             await suggestion.create({
                 GuildID: guildId, MessageID: message.id, Details: [
                     {

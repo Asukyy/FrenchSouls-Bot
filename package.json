@@ -15,6 +15,7 @@
     "axios": "^1.3.1",
     "canvas": "^2.10.1",
     "daz": "^0.0.36",
+    "discord-buttons": "^4.0.0-deprecated",
     "discord-html-transcripts": "^3.1.3",
     "discord.js": "^14.7.1",
     "distube": "^4.0.4",

@@ -1,4 +1,4 @@
-const { PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const { PermissionFlagsBits, EmbedBuilder, User } = require('discord.js');
 const suggestion = require('../../components/modals/moderation/Suggestion');
 
 module.exports = {
@@ -23,12 +23,10 @@ module.exports = {
 
             suggestion.findOne({GuildId: guildId, MessageId: message.id}, async (err, data) => {
                 if(err) throw err;
-
-                if(data) 
+                
+                if(data ) 
                 return interaction.reply({ content: "Aucune donnée n'a été trouvé !", ephemeral: true });
-
                 const embed = message.embeds[0];
-
                 if(!embed)
                  return interaction.reply({ content: "Aucun embed n'a été trouvé !", ephemeral: true });
 
@@ -37,15 +35,23 @@ module.exports = {
                         embed.data.fields[2]= {name: 'Status', value: 'Accepté', inline: true};
                         const acceptedEmbed = EmbedBuilder.from(embed).setColor('Green');
                         message.edit({embeds: [acceptedEmbed]});
-                        member.send({ embeds: [AcceptMessage]});
-                        interaction.reply({ content: "Le message a été accepté !", ephemeral: true });
+                        
+                        const user = await interaction.client.users.fetch(data.UserId);
+                        user.send({ embeds: [AcceptMessage]});
+                        interaction.reply({ content: "Le message a été accepté !", ephemeral: true});
+                        setTimeout(() => {
+                            message.delete();
+                        }, 10000);
                         break;
                     case 'refuse':
                         embed.data.fields[2]= {name: 'Status', value: 'Refusé', inline: true};
                         const refusedEmbed = EmbedBuilder.from(embed).setColor('Red');
                         message.edit({embeds: [refusedEmbed]});
-                        member.send({ embeds: [RefuseMessage]});
+                        user.send({ embeds: [RefuseMessage]});
                         interaction.reply({ content: "Le message a été refusé !", ephemeral: true});
+                        setTimeout(() => {
+                            message.delete();
+                        }, 10000);
                         
                         break;
                 }
