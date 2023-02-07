@@ -90,15 +90,15 @@ module.exports = {
                             return interaction.reply({ embeds: [embed], ephemeral: true });
                         case 'stop':
                             await queue.stop(voiceChannel);
-                            embed.setColor("Red").setDescription('⏹️ | La musique a été mise en pause !');
+                            embed.setColor("Red").setDescription('⏹️ | La musique a été arrêtée !');
                             return interaction.reply({ embeds: [embed], ephemeral: true });
                         case 'pause':
                             await queue.pause(voiceChannel);
-                            embed.setColor("Orange").setDescription('⏸️ | La musique a été reprise !');
+                            embed.setColor("Orange").setDescription('⏸️ | La musique a été mise en pause !');
                             return interaction.reply({ embeds: [embed], ephemeral: true });
                         case 'resume':
                             await queue.resume(voiceChannel);
-                            embed.setColor("Green").setDescription('▶️ | La musique a été arrêtée !');
+                            embed.setColor("Green").setDescription('▶️ | La musique a été reprise !');
                             return interaction.reply({ embeds: [embed], ephemeral: true });
                         case 'queue':
                             embed.setColor("Green").setDescription(`🎶 | ${queue.songs.map((song, id) => `**${id + 1}**. ${song.name} - \`${song.formattedDuration}\``).join("\n")}`);

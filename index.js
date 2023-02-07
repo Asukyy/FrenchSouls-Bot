@@ -23,10 +23,11 @@ client.distube = new DisTube(client,
             plugins: [new SpotifyPlugin()]
          });
          
-module.exports = client;
 
 // Load all commands
 client.commands = new Collection();
+
+module.exports = client;
 
 const commandsPath = path.join(__dirname, 'commands');
 const commandsFolders = fs.readdirSync(commandsPath);
